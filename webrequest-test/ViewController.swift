@@ -9,6 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +24,32 @@ class ViewController: UIViewController {
                 
                 do {
                     let json = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.AllowFragments)
-                    print(json)
+                    
+                    if let dict = json as? Dictionary<String, AnyObject> {
+                        
+                        if let name = dict["name"] as? String, let height = dict["height"] as? String, let birth = dict["birth_year"] as? String, let hair = dict["hair_color"] as? String, let gender = dict["gender"] as? String {
+                            
+                            let luke = Person(name: name, height: height, birthYear: birth, hairColor: hair, gender: gender)
+                            
+                            print(luke.name)
+                            print(luke.height)
+                            print(luke.birthYear)
+                            print(luke.hairColor)
+                            print(luke.gender)
+                            
+                            if let films = dict["films"] as? [String] {
+                                for film in films {
+                                    print(film)
+                                }
+                            }
+                            
+                        } else {
+                            print("there is no luke")
+                        }
+                        
+                    }
+                    
+                    // print(json)
                 } catch {
                     print("Could not serialize")
                 }
